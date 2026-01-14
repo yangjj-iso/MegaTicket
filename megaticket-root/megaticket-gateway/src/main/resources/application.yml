@@ -1,0 +1,35 @@
+server:
+  port: 9000  # 网关通常占用 80/8080/9000
+
+spring:
+  application:
+    name: megaticket-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+      routes:
+        - id: seat-service-route
+          uri: lb://megaticket-service-seat
+          predicates:
+            - Path=/api/seat/**
+          filters:
+        - id: order-service-route
+          uri: lb://megaticket-service-order
+          predicates:
+            - Path=/api/order/**
+        - id: user-service-route
+          uri: lb://megaticket-service-user
+          predicates:
+            - Path=/api/user/**
+
+megaticket:
+  jwt:
+    secret: MegaticketSecretKeyMustBeVeryLongAndSecureEnoughForHS256

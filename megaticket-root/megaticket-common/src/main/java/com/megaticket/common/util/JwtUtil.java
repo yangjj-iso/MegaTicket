@@ -7,6 +7,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -30,8 +31,8 @@ public class JwtUtil {
     /**
      * 密钥 (至少32个字符)
      */
-    private String secret = "MegaticketSecretKeyMustBeVeryLongAndSecureEnoughForHS256";
-
+    @Value("${megaticket.jwt.secret}")
+    private String secret;
     /**
      * 过期时间 (ms)，默认24小时
      */

@@ -18,6 +18,11 @@ public enum ResultCode {
     SUCCESS(200, "操作成功"),
     SYSTEM_ERROR(500, "系统繁忙，请稍后再试"),
     PARAM_VALID_ERROR(400, "参数校验失败"),
+    UNAUTHORIZED(401, "未授权访问"),
+    FORBIDDEN(403, "禁止访问"),
+    NOT_FOUND(404, "资源未找到"),
+    Too_Many_REQUESTS(429, "请求过多，稍后再试"),
+    SERVER_OVERLOAD(503, "服务器过载"),
     // 业务错误码
     /*
     业务错误码按错误类别细分:

@@ -1,0 +1,3 @@
+megaticket:
+  jwt:
+    secret: MegaticketSecretKeyMustBeVeryLongAndSecureEnoughForHS256

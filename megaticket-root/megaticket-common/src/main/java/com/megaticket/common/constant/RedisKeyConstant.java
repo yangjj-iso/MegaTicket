@@ -8,10 +8,6 @@ package com.megaticket.common.constant;
  */
 public class RedisKeyConstant {
 
-    /*
-    影院类Key
-    */
-
     /**
      * 座位位图 Key
      * 格式: cinema:seat_map:{scheduleId}
