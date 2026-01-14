@@ -1,0 +1,14 @@
+megaticket:
+  jwt:
+    secret: MegaticketSecretKeyMustBeVeryLongAndSecureEnoughForHS256
+
+spring:
+  application:
+    name: megaticket-service-cinema
+  datasource:
+    druid:
+      driver: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/megaticket
+      username: ${DB_USERNAME:admin}
+      password: ${DB_PASSWORD:271224}
+

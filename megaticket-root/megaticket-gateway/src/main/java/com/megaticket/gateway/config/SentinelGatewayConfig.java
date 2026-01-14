@@ -34,7 +34,6 @@ public class SentinelGatewayConfig {
             return ServerResponse.status(HttpStatus.TOO_MANY_REQUESTS)
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(BodyInserters.fromValue(result));
-
         };
 
         // 设置自定义的限流异常处理器

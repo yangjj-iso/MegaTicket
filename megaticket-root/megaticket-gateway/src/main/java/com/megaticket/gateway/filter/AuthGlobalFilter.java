@@ -53,7 +53,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         //1.获取请求对象
-        ServerHttpRequest request = (ServerHttpRequest) exchange.getRequest();
+        ServerHttpRequest request = exchange.getRequest();
         String path = request.getURI().getPath();
 
         //2.判断是否在白名单内
@@ -74,7 +74,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
         //4.如果token无效，拒绝访问
         if(userId==null){
-
+            return unauthorizeResponse(exchange);
         }
 
         //5.如果token有效，将用户ID传递给下游服务
@@ -89,9 +89,9 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
      * @param exchange 交换对象
      * @return 响应结果
      */
-    private Mono<Void> unauthorizeResponse(ServerWebExchange exchange) throws JsonProcessingException {
+    private Mono<Void> unauthorizeResponse(ServerWebExchange exchange) {
         //1.设置响应状态码和头
-        ServerHttpResponse response = (ServerHttpResponse) exchange.getResponse();
+        ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(HttpStatus.UNAUTHORIZED);
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
