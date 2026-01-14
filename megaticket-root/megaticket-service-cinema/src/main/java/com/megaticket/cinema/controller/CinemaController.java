@@ -32,7 +32,7 @@ public class CinemaController {
     @RequestMapping("/list")
     public Result<List<Cinema>> getCinemaList()
     {
-        return null;
+        return Result.success(cinemaService.getAllCinemas());
     }
 
     /**
