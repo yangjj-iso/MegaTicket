@@ -42,6 +42,16 @@ public class JwtUtil {
     public static final String HEADER_STRING = "Authorization";
 
     /**
+     * 生成Token (仅用户ID)
+     *
+     * @param userId 用户ID
+     * @return 加密后的Token字符串
+     */
+    public String generateToken(Long userId) {
+        return generateToken(userId, String.valueOf(userId));
+    }
+
+    /**
      * 生成Token
      *
      * @param userId   用户ID

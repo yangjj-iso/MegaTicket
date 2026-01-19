@@ -1,6 +1,7 @@
 package com.megaticket.cinema.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.megaticket.cinema.entity.CinemaHall;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,5 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  * since 2026/1/14
  */
 @Mapper
-public interface CinemaHallMapper extends BaseMapper<CinemaHallMapper> {
+public interface CinemaHallMapper extends BaseMapper<CinemaHall> {
 }

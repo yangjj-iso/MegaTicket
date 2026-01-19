@@ -7,7 +7,8 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: localhost:8848
+        namespace: public
     gateway:
       globalcors:
         cors-configurations:
@@ -16,19 +17,26 @@ spring:
             allowedMethods: "*"
             allowedHeaders: "*"
       routes:
-        - id: seat-service-route
-          uri: lb://megaticket-service-seat
-          predicates:
-            - Path=/api/seat/**
-          filters:
-        - id: order-service-route
-          uri: lb://megaticket-service-order
-          predicates:
-            - Path=/api/order/**
         - id: user-service-route
           uri: lb://megaticket-service-user
           predicates:
-            - Path=/api/user/**
+            - Path=/api/v1/user/**
+        - id: cinema-service-route
+          uri: lb://megaticket-service-cinema
+          predicates:
+            - Path=/api/v1/cinema/**
+        - id: seat-service-route
+          uri: lb://megaticket-service-seat
+          predicates:
+            - Path=/api/v1/seat/**
+        - id: order-service-route
+          uri: lb://megaticket-service-order
+          predicates:
+            - Path=/api/v1/order/**
+        - id: pay-service-route
+          uri: lb://megaticket-service-pay
+          predicates:
+            - Path=/api/v1/pay/**
 
 megaticket:
   jwt:

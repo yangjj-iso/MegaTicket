@@ -5,10 +5,16 @@ megaticket:
 spring:
   application:
     name: megaticket-service-cinema
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        namespace: public
   datasource:
-    druid:
-      driver: org.postgresql.Driver
-      url: jdbc:postgresql://localhost:5432/megaticket
-      username: ${DB_USERNAME:admin}
-      password: ${DB_PASSWORD:271224}
-
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/megaticket
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:271224}
+server:
+  port: 8082

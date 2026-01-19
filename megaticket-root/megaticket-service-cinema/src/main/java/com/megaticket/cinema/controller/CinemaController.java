@@ -3,12 +3,11 @@ package com.megaticket.cinema.controller;
 import com.megaticket.cinema.entity.Cinema;
 import com.megaticket.cinema.service.CinemaService;
 import com.megaticket.common.result.Result;
+import jakarta.validation.constraints.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/cinema")
 @RequiredArgsConstructor
+@Validated
 public class CinemaController {
 
     // 影院服务(构造器注入)
@@ -29,7 +29,7 @@ public class CinemaController {
      * 获取影院列表(全部)
      * @return 影院列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public Result<List<Cinema>> getCinemaList()
     {
         return Result.success(cinemaService.getAllCinemas());
@@ -37,13 +37,17 @@ public class CinemaController {
 
     /**
       获取影院列表(地点模糊查询)
-      @param name 地点
+      @param name 影院名称
      * @return 影院列表
      */
-    @RequestMapping("/list-by-name")
-    public Result<List<Cinema>> getCinemasByName(String name)
+    @GetMapping("/list-by-name/{name}")
+    public Result<List<Cinema>> getCinemasByLocation(
+            @PathVariable("name")
+            @NotBlank(message = "影院名称不能为空")
+            @Size(min = 1, max = 50, message = "影院名称长度必须在1-50之间")
+            String name)
     {
-        return null;
+        return Result.success(cinemaService.getCinemasByLocation(name));
     }
 
     /**
@@ -51,10 +55,14 @@ public class CinemaController {
      * @param cityCode 城市代码
      * @return 影院列表
      */
-    @RequestMapping("/list-by-city")
-    public Result<List<Cinema>> getCinemaByCityCode(String cityCode)
+    @GetMapping("/list-by-city/{cityCode}")
+    public Result<List<Cinema>> getCinemaByCityCode(
+            @PathVariable("cityCode")
+            @NotBlank(message = "城市代码不能为空")
+            @Pattern(regexp = "^[0-9]{6}$", message = "城市代码必须是6位数字")
+            String cityCode)
     {
-        return null;
+        return Result.success(cinemaService.getCinemasByCityCode(cityCode));
     }
 
     /**
@@ -62,10 +70,14 @@ public class CinemaController {
      * @param cinemaId 影院ID
      * @return 影院详情
      */
-    @RequestMapping("/detail")
-    public Result<Cinema> getCinemaDetail(Long cinemaId)
+    @GetMapping("/detail")
+    public Result<Cinema> getCinemaDetail(
+            @RequestParam("cinemaId")
+            @NotNull(message = "影院ID不能为空")
+            @Positive(message = "影院ID必须为正数")
+            Long cinemaId)
     {
-        return null;
+        return Result.success(cinemaService.getCinemaDetail(cinemaId));
     }
 
 }

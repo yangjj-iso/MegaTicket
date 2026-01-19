@@ -26,11 +26,19 @@
             <artifactId>hutool-all</artifactId>
         </dependency>
 
-        <!-- MyBatis Plus Annotation -->
+        <!-- MyBatis Plus Core (for exceptions) -->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-annotation</artifactId>
+            <artifactId>mybatis-plus-core</artifactId>
             <version>${mybatis-plus.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Spring JDBC (for DataAccessException) -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- JJWT -->

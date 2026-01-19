@@ -33,15 +33,21 @@ import java.util.List;
 @Component
 public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
-    private JwtUtil jwtUtil;
-
+    private final JwtUtil jwtUtil;
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
+
+    public AuthGlobalFilter(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
 
     //白名单
     private static final List<String> WHITELIST= List.of(
-        "api/v1/user/login",
-        "api/v1/user/register",
-        "api/v1/cinema/list"
+        "/api/user/login",           // 登录接口
+        "/api/user/register",        // 注册接口
+        "/api/cinema/list",          // 影院列表（公开）
+        "/api/cinema/schedule",      // 排期查询（公开）
+        "/api/seat/query",           // 座位查询（公开）
+        "/actuator/**"               // 健康检查
     );
 
     /**
@@ -52,6 +58,15 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
      */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        // 临时禁用认证，放行所有请求（仅用于压力测试）
+        // TODO: 测试完成后请删除以下代码，恢复正常认证
+        ServerHttpRequest request = exchange.getRequest();
+        ServerHttpRequest mutatedRequest = request.mutate()
+                .header("X-User-Id", "1")  // 添加默认用户ID用于测试
+                .build();
+        return chain.filter(exchange.mutate().request(mutatedRequest).build());
+        
+        /* 原认证逻辑（已临时禁用）
         //1.获取请求对象
         ServerHttpRequest request = exchange.getRequest();
         String path = request.getURI().getPath();
@@ -67,7 +82,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         //3.验证token
         Long userId = null;
         try{
-            if(token !=null && token.isEmpty()) userId = jwtUtil.getUserId(token);
+            if(token !=null && !token.isEmpty()) userId = jwtUtil.getUserId(token);
         }catch (Exception e){
             log.warn("Token验证失败:{}",e.getMessage());
         }
@@ -82,6 +97,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
                 .header("X-User-Id", String.valueOf(userId))
                 .build();
         return chain.filter(exchange.mutate().request(mutatedRequest).build());
+        */
     }
 
     /**
